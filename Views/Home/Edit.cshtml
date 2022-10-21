@@ -1,0 +1,33 @@
+﻿@model SearchForm.Models.UserData
+@{
+  ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+@using (Html.BeginForm())
+{
+<form>
+    <div class="form-group">
+        @Html.Label("Username")
+        <br />
+        @Html.TextBoxFor(model => model.username, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.Label("Password")
+        <br />
+        @Html.TextBoxFor(model => model.password, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+    </div>
+    <div>
+        @Html.ValidationMessage("", new { @class = "text-danger" })
+    </div>
+    <div>
+        @Html.HiddenFor(model => model.userId)
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+}
+
+

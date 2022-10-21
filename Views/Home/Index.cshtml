@@ -1,0 +1,66 @@
+﻿@using PagedList.Mvc;
+@using PagedList;
+@model IPagedList<SearchForm.Models.UserData>
+@{
+  ViewBag.Title = "Delete";
+}
+
+<br />
+@using (Html.BeginForm("Index", "Home", FormMethod.Get))
+{
+<form>
+    <input type="search" name="search" class="form-control" />
+    <br />
+    <input type="submit" value="Search" class="btn" /> &ensp;
+    <a class="btn btn-success" href="@Url.Action("Index","Home")">Full List</a>
+</form>
+}
+
+
+
+<br />
+<h2>List of Users</h2>
+@Html.Raw(ViewBag.DeleteMessage)
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+{
+<form>
+    <div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>
+                        Username
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="table-group-divider">
+                @if (Model.Count == 0)
+                {
+                    <tr>
+                        <td colspan="3" style="color:red"><h4>No records found</h4></td>
+                    </tr> }
+                else
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(model => item.username)
+                            </td>
+                            <td>
+                                <a class="btn btn-primary" href="@Url.Action("Edit","Home", new { id = item.userId})">Edit</a>
+                                <a class="btn btn-danger" onclick="return confirm('Are you sure you want to delete?');" href="@Url.Action("Delete","Home", new { id = item.userId})">Delete</a>
+                            </td>
+                        </tr>}
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+</form>
+}
+
+@Html.PagedListPager(Model, page => Url.Action("Index", new { page, searchu = Request.QueryString["search"]}), new PagedListRenderOptions() { Display = PagedListDisplayMode.IfNeeded})
+<a href="@Url.Action("Login", "Home")" class="btn btn-warning">Logout</a>
